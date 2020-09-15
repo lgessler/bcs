@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/results">Results</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Query {{ id }}</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block contents %}
+<style>
+
+</style>
+<script>
+    var copyTableToClipboard = function() {
+        var r = document.createRange();
+        r.selectNode($('table')[0]);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(r);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+    }
+</script>
+<div>
+    <h1>Query {{id}} Sentences</h1>
+    <ul>
+    {% for qs in query.query_sentences %}
+    <li>{{ qs }}</li>
+    {% endfor %}
+    </ul>
+    
+    <h1 style="display:inline-block;">Query {{id}} Results</h1>
+    <button style="display:inline-block;margin-bottom:20px; margin-left:1em;"
+            class="btn btn-secondary"
+            onClick="copyTableToClipboard()">
+        Copy to Clipboard
+    </button>
+{% autoescape off %}
+{{ query.results }}
+{% endautoescape %}
+</div>
+
+
+
+{% endblock %}

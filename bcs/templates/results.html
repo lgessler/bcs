@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block contents %}
+<h1>Results</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Submitted</th>
+    <th scope="col">Status</th>
+    <th scope="col">Preposition</th>
+    <th scope="col">Description</th>
+    <th scope="col">Query Sentences</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for q in queries %}
+  <tr>
+    <th scope="row">
+      <a href="/results/{{q.id}}" style="font-size: 24px;">
+        {{ q.id }}
+      </a>
+    </th>
+    <td>{{ q.submitted_time|date:'Y-m-d H:i' }}</td>
+    <td>{{ q.status }}</td>
+    <td>{{ q.preposition }}</td>
+    <td>{{ q.description }}</td>
+    <td>{{ q.query_sentences|join:"<br>" }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f088761c-ed0d-4dd8-9c65-b5342989f8d2" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="prep_search_app" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="JupyterTrust" id="04832296-71b8-43eb-b64c-f4bebf91b997" />
+  <component name="ProjectId" id="1hSahOQU2Be25vpamvW1kdFMGFD" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../bcs/bcs/templates" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../bcs/bcs/templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/prep_search_app/static/prep_search_app" />
+      <recent name="$PROJECT_DIR$/prep_search_app/static" />
+      <recent name="$PROJECT_DIR$/prep_search_app" />
+    </key>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f088761c-ed0d-4dd8-9c65-b5342989f8d2" name="Default Changelist" comment="" />
+      <created>1600007065514</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600007065514</updated>
+      <workItem from="1600007072163" duration="20142000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1953" y="389" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600024056871">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1953" y="389" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.2560.1440/4480.517.1920.1080/0.517.1920.1080@1920.0.2560.1440" timestamp="1600024056871" />
+    <state x="2910" y="535" width="576" height="405" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600007653072">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2910" y="535" width="576" height="405" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.2560.1440/4480.517.1920.1080/0.517.1920.1080@1920.0.2560.1440" timestamp="1600007653072" />
+    <state x="2867" y="179" width="662" height="669" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1600026448585">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2867" y="179" width="662" height="669" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1920.0.2560.1440/4480.517.1920.1080/0.517.1920.1080@1920.0.2560.1440" timestamp="1600026448585" />
+    <state x="2849" y="457" width="856" height="616" key="find.popup" timestamp="1600024425028">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2849" y="457" width="856" height="616" key="find.popup/1920.0.2560.1440/4480.517.1920.1080/0.517.1920.1080@1920.0.2560.1440" timestamp="1600024425028" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../bcs/bcs/templates/results_detail.html</url>
+          <line>26</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
