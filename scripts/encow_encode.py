@@ -17,6 +17,7 @@ PREPS = ["about", "above", "across", "after", "afterward", "against", "ago", "am
 
 # GPU available?
 CUDA = torch.cuda.is_available()
+print("CUDA: ", CUDA)
 
 #initialize the bert model
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
