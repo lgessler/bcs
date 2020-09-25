@@ -8,7 +8,7 @@ from pytorch_pretrained_bert import BertTokenizer, BertModel, BertForMaskedLM
 
 
 # cell 2
-def sent2vec(model, tokenizer, sentence, target_tokens=["in", "of", "to"], ignore_case=True, collapse_bert_tokens=True):
+def sent2vec(model, tokenizer, sentence, CUDA, target_tokens=["in", "of", "to"], ignore_case=True, collapse_bert_tokens=True):
     """Take a sentence and a target token and return a 2-tuple where the first element an np array whose rows are the
     averaged last 4 BERT layers of the target token for each occurrence of the target token in the sentence, and the
     second element is a string representation of the corresponding token in context. E.g.,
@@ -85,10 +85,10 @@ def read_pickle(filepath):
             return pickle.load(f)
 
 
-def query(model, tokenizer, vecs, sentences, query_sentences, target_tokens):
+def query(model, tokenizer, vecs, sentences, query_sentences, target_tokens, CUDA):
     query_vecs = []
     for query_sentence in query_sentences:
-        vec, _ = sent2vec(model, tokenizer, query_sentence, target_tokens=target_tokens)
+        vec, _ = sent2vec(model, tokenizer, query_sentence, CUDA, target_tokens=target_tokens)
         query_vecs.append(torch.tensor(vec))
     query_vec = torch.mean(torch.stack(query_vecs), dim=0)
     sims = cosine_similarity(vecs, query_vec)
@@ -112,7 +112,7 @@ def query_encow(query_id, target_prep, sentences, N=5000):
     aggregated_pairs = []
     for i in range(80):
         vecs, sents = read_pickle(f'encow/encow_sent.txt.{str(i).zfill(3)}')
-        aggregated_pairs += query(model, tokenizer, vecs, sents, sentences, [target_prep])
+        aggregated_pairs += query(model, tokenizer, vecs, sents, sentences, [target_prep], CUDA)
         print("Querying " + f'({i + 1}/80)' + ('.' * ((i % 3) + 1)) + '      ', end='\r')
 
     return query_id, sorted([(sim, sent[6:-6]) for sim, sent in aggregated_pairs], reverse=True, key=lambda x: x[0])[:N]
