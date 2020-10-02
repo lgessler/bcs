@@ -1,23 +1,43 @@
 
 import os
 import pickle
+import re
+
 import torch
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from pytorch_pretrained_bert import BertTokenizer, BertModel, BertForMaskedLM
 
 
-# cell 2
-def sent2vec(model, tokenizer, sentence, CUDA, target_tokens=["in", "of", "to"], ignore_case=True, collapse_bert_tokens=True):
-    """Take a sentence and a target token and return a 2-tuple where the first element an np array whose rows are the
-    averaged last 4 BERT layers of the target token for each occurrence of the target token in the sentence, and the
-    second element is a string representation of the corresponding token in context. E.g.,
+PREPS = ["about", "above", "across", "after", "afterward", "against", "ago", "among", "apart", "around", "as", "at",
+         "atop", "away", "back", "before", "behind", "below", "besides", "between", "beyond", "but", "by", "circa",
+         "despite", "down", "downstairs", "during", "except", "for", "from", "home", "in", "indoors", "inside", "into",
+         "like", "minus", "near", "nearby", "of", "off", "on", "onto", "out", "outside", "over", "past", "per", "plus",
+         "round", "since", "than", "through", "throughout", "till", "to", "together", "toward", "under", "unlike",
+         "until", "up", "upon", "via", "with", "within", "without"]
 
-    >>> sent2vec("She finished it through and through", target_token="through")
-    (array([[...]]), ["She finished it >>through<< and through", "She finished it through and >>through<<"])
-    """
+
+TARGET_PREPOSITION_PATTERN = re.compile('>>(' + '|'.join(PREPS) + ')<<', re.IGNORECASE)
+
+
+def remove_and_index_target_prep(tokenized_text):
+    for i in range(2, len(tokenized_text) - 2):
+        if tokenized_text[i-2:i] == ['>', '>'] and tokenized_text[i+1:i+3] == ['<', '<']:
+            tokenized_text = tokenized_text[:i-2] + tokenized_text[i:i+1] + tokenized_text[i+3:]
+            return tokenized_text, i - 2
+
+# cell 2
+def sent2vec(model, tokenizer, sentence, CUDA, ignore_case=True, collapse_bert_tokens=True):
+    """"""
+    # extract target prep that has been indicated with >>arrows<< and remove arrows from sent
+    target_preps = re.findall(TARGET_PREPOSITION_PATTERN, sentence)
+    if len(target_preps) != 1:
+        raise Exception("sentence did not contain exactly one arrowed target prep: " + sentence)
+
     marked_text = '[CLS] ' + sentence + ' [SEP]'
     tokenized_text = tokenizer.tokenize(marked_text)
+    # remove arrows around >>prep<< and note where it appeared
+    tokenized_text, target_index = remove_and_index_target_prep(tokenized_text)
     indexed_tokens = tokenizer.convert_tokens_to_ids(tokenized_text)
     segments_ids = [1] * len(tokenized_text)
 
@@ -51,23 +71,7 @@ def sent2vec(model, tokenizer, sentence, CUDA, target_tokens=["in", "of", "to"],
         # Use `sum_vec` to represent `token`.
         token_vecs_sum.append(sum_vec)
 
-    # now find the indexes the token appears in, pool the embedding for these indexes (i.e the token emb.)
-    token_tuples = []
-    for token_str in enumerate(tokenized_text):
-        token_tuples.append(token_str)
-    token_list = [list(elem) for elem in token_tuples]
-
-    # this is an example for pooling token embeddings for the word "in"
-    vectors = []
-    sentences = []
-    target_tokens = target_tokens if not ignore_case else [t.lower() for t in target_tokens]
-    for i, token in token_list:
-        if (token.lower() if ignore_case else token) in target_tokens:
-            vectors.append(np.array(token_vecs_sum[i]))
-            sentences.append(" ".join([t if j != i else '>>' + t + '<<' for j, t in token_list]))
-            if collapse_bert_tokens:
-                sentences[-1] = sentences[-1].replace(" ##", "")
-    return np.array(vectors), sentences
+    return np.array([np.array(token_vecs_sum[target_index])])
 
 
 # cell 3
@@ -85,10 +89,10 @@ def read_pickle(filepath):
             return pickle.load(f)
 
 
-def query(model, tokenizer, vecs, sentences, query_sentences, target_tokens, CUDA):
+def query(model, tokenizer, vecs, sentences, query_sentences, CUDA):
     query_vecs = []
     for query_sentence in query_sentences:
-        vec, _ = sent2vec(model, tokenizer, query_sentence, CUDA, target_tokens=target_tokens)
+        vec = sent2vec(model, tokenizer, query_sentence, CUDA)
         query_vecs.append(torch.tensor(vec))
     query_vec = torch.mean(torch.stack(query_vecs), dim=0)
     sims = cosine_similarity(vecs, query_vec)
@@ -96,7 +100,7 @@ def query(model, tokenizer, vecs, sentences, query_sentences, target_tokens, CUD
     return sorted(pairs, reverse=True, key=lambda x: x[0])[:500]
 
 
-def query_encow(query_id, target_prep, sentences, N=5000):
+def query_encow(query_id, sentences, N=5000):
     # GPU available?
     CUDA = torch.cuda.is_available()
 
@@ -112,7 +116,7 @@ def query_encow(query_id, target_prep, sentences, N=5000):
     aggregated_pairs = []
     for i in range(80):
         vecs, sents = read_pickle(f'encow/encow_sent.txt.{str(i).zfill(3)}')
-        aggregated_pairs += query(model, tokenizer, vecs, sents, sentences, [target_prep], CUDA)
+        aggregated_pairs += query(model, tokenizer, vecs, sents, sentences, CUDA)
         print("Querying " + f'({i + 1}/80)' + ('.' * ((i % 3) + 1)) + '      ', end='\r')
 
     return query_id, sorted([(sim, sent[6:-6]) for sim, sent in aggregated_pairs], reverse=True, key=lambda x: x[0])[:N]

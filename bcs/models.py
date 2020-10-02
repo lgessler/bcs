@@ -1,6 +1,7 @@
 from django.db import models
 from typing import Iterable
 
+
 class ListField(models.TextField):
     """
     A custom Django field to represent lists as comma separated strings
@@ -44,17 +45,11 @@ class ListField(models.TextField):
         value = self.value_from_object(obj)
         return self.get_prep_value(value)
 
-PREPS = ["about", "above", "across", "after", "afterward", "against", "ago", "among", "apart", "around", "as", "at",
-         "atop", "away", "back", "before", "behind", "below", "besides", "between", "beyond", "but", "by", "circa",
-         "despite", "down", "downstairs", "during", "except", "for", "from", "home", "in", "indoors", "inside", "into",
-         "like", "minus", "near", "nearby", "of", "off", "on", "onto", "out", "outside", "over", "past", "per", "plus",
-         "round", "since", "than", "through", "throughout", "till", "to", "together", "toward", "under", "unlike",
-         "until", "up", "upon", "via", "with", "within", "without"]
+
 
 class Query(models.Model):
     # core data
     query_sentences = ListField(token='熕')
-    preposition = models.CharField(choices=[(x, x) for x in PREPS], max_length=999)
     results = models.TextField()
 
     # metadata

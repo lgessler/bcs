@@ -10,7 +10,6 @@
     <th scope="col">#</th>
     <th scope="col">Submitted</th>
     <th scope="col">Status</th>
-    <th scope="col">Preposition</th>
     <th scope="col">Description</th>
     <th scope="col">Query Sentences</th>
   </tr>
@@ -25,7 +24,6 @@
     </th>
     <td>{{ q.submitted_time|date:'Y-m-d H:i' }}</td>
     <td>{{ q.status }}</td>
-    <td>{{ q.preposition }}</td>
     <td>{{ q.description }}</td>
     <td>{{ q.query_sentences|join:"<br>" }}</td>
   </tr>
